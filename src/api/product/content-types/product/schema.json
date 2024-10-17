@@ -1,0 +1,66 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Amount": {
+      "type": "decimal",
+      "required": true
+    },
+    "Excerpt": {
+      "type": "text",
+      "required": true,
+      "maxLength": 200
+    },
+    "category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "Images": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Length": {
+      "type": "enumeration",
+      "enum": [
+        "L - 10\"",
+        "L - 12\"",
+        "L - 14\"",
+        "L - 16\"",
+        "L - 18\"",
+        "L - 20\""
+      ]
+    },
+    "Color": {
+      "type": "enumeration",
+      "enum": [
+        "Natural Black",
+        "Dark Brown",
+        "Light Brown",
+        "Blonde"
+      ]
+    }
+  }
+}
