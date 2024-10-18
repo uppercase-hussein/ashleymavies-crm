@@ -17,7 +17,7 @@
       "required": true,
       "unique": true
     },
-    "Amount": {
+    "Price": {
       "type": "decimal",
       "required": true
     },
@@ -61,6 +61,18 @@
         "Light Brown",
         "Blonde"
       ]
+    },
+    "isFeatured": {
+      "type": "boolean",
+      "default": false
+    },
+    "DiscountPrice": {
+      "type": "decimal"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Name",
+      "required": true
     }
   }
 }

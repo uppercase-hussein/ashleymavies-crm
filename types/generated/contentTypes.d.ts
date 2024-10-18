@@ -541,7 +541,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     Name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
-    Amount: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    Price: Schema.Attribute.Decimal & Schema.Attribute.Required;
     Excerpt: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
@@ -556,6 +556,9 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     Color: Schema.Attribute.Enumeration<
       ['Natural Black', 'Dark Brown', 'Light Brown', 'Blonde']
     >;
+    isFeatured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    DiscountPrice: Schema.Attribute.Decimal;
+    slug: Schema.Attribute.UID<'Name'> & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -567,6 +570,41 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::product.product'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSpecialOfferSpecialOffer
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'special_offers';
+  info: {
+    singularName: 'special-offer';
+    pluralName: 'special-offers';
+    displayName: 'Special Offer';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
+    background: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    active: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::special-offer.special-offer'
     > &
       Schema.Attribute.Private;
   };
@@ -956,6 +994,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
       'api::product.product': ApiProductProduct;
+      'api::special-offer.special-offer': ApiSpecialOfferSpecialOffer;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;
