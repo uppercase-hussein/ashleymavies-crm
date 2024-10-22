@@ -42,23 +42,11 @@
         "images"
       ]
     },
-    "Length": {
-      "type": "enumeration",
-      "enum": [
-        "L - 10\"",
-        "L - 12\"",
-        "L - 14\"",
-        "L - 16\"",
-        "L - 18\"",
-        "L - 20\""
-      ]
-    },
     "Color": {
       "type": "enumeration",
       "enum": [
-        "Natural Black",
-        "Dark Brown",
-        "Light Brown",
+        "Black",
+        "Brown",
         "Blonde"
       ]
     },
@@ -73,6 +61,9 @@
       "type": "uid",
       "targetField": "Name",
       "required": true
+    },
+    "Length": {
+      "type": "integer"
     }
   }
 }

@@ -526,6 +526,48 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'Order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ordernumber: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    deliveryfee: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
+    total: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<0>;
+    orderstatus: Schema.Attribute.Enumeration<
+      ['pending', 'paid', 'delivered', 'refunded', 'completed', 'others']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'pending'>;
+    customer: Schema.Attribute.JSON & Schema.Attribute.Required;
+    items: Schema.Attribute.JSON & Schema.Attribute.Required;
+    reference: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::order.order'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -550,15 +592,11 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     category: Schema.Attribute.Relation<'oneToOne', 'api::category.category'>;
     Description: Schema.Attribute.Blocks;
     Images: Schema.Attribute.Media<'images', true> & Schema.Attribute.Required;
-    Length: Schema.Attribute.Enumeration<
-      ['L - 10"', 'L - 12"', 'L - 14"', 'L - 16"', 'L - 18"', 'L - 20"']
-    >;
-    Color: Schema.Attribute.Enumeration<
-      ['Natural Black', 'Dark Brown', 'Light Brown', 'Blonde']
-    >;
+    Color: Schema.Attribute.Enumeration<['Black', 'Brown', 'Blonde']>;
     isFeatured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     DiscountPrice: Schema.Attribute.Decimal;
     slug: Schema.Attribute.UID<'Name'> & Schema.Attribute.Required;
+    Length: Schema.Attribute.Integer;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -993,6 +1031,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
+      'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
       'api::special-offer.special-offer': ApiSpecialOfferSpecialOffer;
       'admin::permission': AdminPermission;
