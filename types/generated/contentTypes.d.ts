@@ -526,6 +526,70 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDeliveryChargeDeliveryCharge
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'delivery_charges';
+  info: {
+    singularName: 'delivery-charge';
+    pluralName: 'delivery-charges';
+    displayName: 'Delivery Charge';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    state: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    amount: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<5000>;
+    iso: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::delivery-charge.delivery-charge'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiHomebannerHomebanner extends Struct.CollectionTypeSchema {
+  collectionName: 'homebanners';
+  info: {
+    singularName: 'homebanner';
+    pluralName: 'homebanners';
+    displayName: 'homebanner';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::homebanner.homebanner'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
   collectionName: 'orders';
   info: {
@@ -1031,6 +1095,8 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
+      'api::delivery-charge.delivery-charge': ApiDeliveryChargeDeliveryCharge;
+      'api::homebanner.homebanner': ApiHomebannerHomebanner;
       'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
       'api::special-offer.special-offer': ApiSpecialOfferSpecialOffer;

@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "delivery_charges",
+  "info": {
+    "singularName": "delivery-charge",
+    "pluralName": "delivery-charges",
+    "displayName": "Delivery Charge",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "state": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "amount": {
+      "type": "decimal",
+      "required": true,
+      "default": 5000
+    },
+    "iso": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
